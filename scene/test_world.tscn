@@ -1,0 +1,73 @@
+[gd_scene load_steps=5 format=3 uid="uid://csgft8yinuy7u"]
+
+[ext_resource type="PackedScene" uid="uid://bbxlcx22f0k0g" path="res://scene/player.tscn" id="1_krlkw"]
+[ext_resource type="Script" uid="uid://cbcyesx10r21s" path="res://scene/stats_tracker.gd" id="2_1hc4l"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_1hc4l"]
+size = Vector2(16, 48)
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_1hc4l"]
+
+[node name="test_world" type="Node2D"]
+
+[node name="world_shape" type="StaticBody2D" parent="."]
+collision_mask = 2
+
+[node name="polygon" type="CollisionPolygon2D" parent="world_shape"]
+polygon = PackedVector2Array(-128, 384, 256, 384, 256, 320, 576, 320, 704, 256, 832, 256, 832, 320, 960, 320, 960, 384, 1152, 384, 1152, 448, -128, 448)
+
+[node name="Polygon2D" type="Polygon2D" parent="world_shape"]
+color = Color(0, 1, 1, 1)
+polygon = PackedVector2Array(-128, 384, 256, 384, 256, 320, 576, 320, 704, 256, 832, 256, 832, 320, 960, 320, 960, 384, 1152, 384, 1152, 448, -128, 448)
+
+[node name="block" type="StaticBody2D" parent="."]
+position = Vector2(352, 280)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="block"]
+shape = SubResource("RectangleShape2D_1hc4l")
+metadata/_edit_lock_ = true
+
+[node name="ColorRect" type="ColorRect" parent="block"]
+offset_left = -8.0
+offset_top = -24.0
+offset_right = 8.0
+offset_bottom = 24.0
+metadata/_edit_lock_ = true
+
+[node name="right_boundry" type="StaticBody2D" parent="."]
+position = Vector2(1152, 320)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="right_boundry"]
+rotation = -1.5707964
+shape = SubResource("WorldBoundaryShape2D_1hc4l")
+
+[node name="left_boundry" type="StaticBody2D" parent="."]
+position = Vector2(-128, 320)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="left_boundry"]
+rotation = 1.5707964
+shape = SubResource("WorldBoundaryShape2D_1hc4l")
+
+[node name="UI" type="CanvasLayer" parent="."]
+
+[node name="stats_tracker" type="VBoxContainer" parent="UI" node_paths=PackedStringArray("player")]
+offset_right = 192.0
+offset_bottom = 256.0
+script = ExtResource("2_1hc4l")
+player = NodePath("../../player")
+metadata/_edit_lock_ = true
+
+[node name="velocity_label" type="Label" parent="UI/stats_tracker"]
+layout_mode = 2
+
+[node name="sliding_label" type="Label" parent="UI/stats_tracker"]
+layout_mode = 2
+
+[node name="sliding_available_label" type="Label" parent="UI/stats_tracker"]
+layout_mode = 2
+
+[node name="current_anim" type="Label" parent="UI/stats_tracker"]
+layout_mode = 2
+
+[node name="player" parent="." instance=ExtResource("1_krlkw")]
+position = Vector2(456, 272)
